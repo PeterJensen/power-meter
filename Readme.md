@@ -25,14 +25,14 @@ When the current and voltage are varying over time, the power is computed as the
 <!--
 <img src="https://latex.codecogs.com/svg.latex?P_{AVG}=I_{RMS}V_{RMS}" style="height:20px; margin-left:50px">
 -->
-<img src="./images/power.svg" style="height:20px; margin-left:50px">
+>![](./images/power.svg)
 
 The V<sub>RMS</sub> component is kept constant by the power company at 120V, so the interesting one is the I<sub>RMS</sub> value.  The Arduino analog-to-digital converters are 10-bits, and the circuitry is designed so that the mid-point of the sinus input is 2.5V, which should result in a reading of ~511.  If the readings are equally spaced in time, the I<sub>RMS</sub> value can be computed as:
 
 <!--
 <img src="https://latex.codecogs.com/svg.latex?I_{RMS}=K\sqrt{\frac{1}{N}\sum_{i=1}^{N}{(v_i-511)^2}}" style="height:80px;margin-left:50px">
 -->
-<img src="./images/i-rms.svg" style="height:80px;margin-left:50px">
+>![](./images/i-rms.svg)
 
 where N is the number of samples it takes to cover the full period of the 60Hz sinus wave, K is a calibration constant that will be determined after measuring the actual I<sub>RMS</sub> values with a multimeter, and v<sub>i</sub> are the values returned by the calls to `analogRead()`
 
