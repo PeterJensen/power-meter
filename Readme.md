@@ -22,12 +22,17 @@ If all you do in the `loop()` function in your Arduino sketch is to call `analog
 Why do you need the rms value? The input on the analog input pin is the voltage drop over the load/burden resistor.  That voltage drop is directly proportional with the current going through the power line being measured at the time of measurement.
 
 When the current and voltage are varying over time, the power is computed as the average power over the period of the 60Hz sinus wave, using the RMS values of I and V:
-
-<img src="https://latex.codecogs.com/svg.latex?P_{AVG} = I_{RMS}V_{RMS}" style="height:20px; margin-left:50px">
+<!--
+<img src="https://latex.codecogs.com/svg.latex?P_{AVG}=I_{RMS}V_{RMS}" style="height:20px; margin-left:50px">
+-->
+<img src="./images/power.svg" style="height:20px; margin-left:50px">
 
 The V<sub>RMS</sub> component is kept constant by the power company at 120V, so the interesting one is the I<sub>RMS</sub> value.  The Arduino analog-to-digital converters are 10-bits, and the circuitry is designed so that the mid-point of the sinus input is 2.5V, which should result in a reading of ~511.  If the readings are equally spaced in time, the I<sub>RMS</sub> value can be computed as:
 
-<img src="https://latex.codecogs.com/svg.latex?I_{RMS} = K\sqrt{\frac{1}{N}\sum_{i=1}^{N}{(v_i - 511)^2}}" style="height:80px;margin-left:50px">
+<!--
+<img src="https://latex.codecogs.com/svg.latex?I_{RMS}=K\sqrt{\frac{1}{N}\sum_{i=1}^{N}{(v_i-511)^2}}" style="height:80px;margin-left:50px">
+-->
+<img src="./images/i-rms.svg" style="height:80px;margin-left:50px">
 
 where N is the number of samples it takes to cover the full period of the 60Hz sinus wave, K is a calibration constant that will be determined after measuring the actual I<sub>RMS</sub> values with a multimeter, and v<sub>i</sub> are the values returned by the calls to `analogRead()`
 
@@ -117,7 +122,7 @@ I bought everything I needed on Amazon Prime.  If you're not a Prime subscriber 
 [img02]: ./images/IMG_6477.JPG
 
 <!---
-adfaadfadfadfasdfasdfadsf
+Here's a comment
 -->
 
 [Some Link](http://www.danishdude.com)
