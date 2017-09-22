@@ -4,12 +4,12 @@
 
 ## Table of Contents
 
-* [Introduction](#Introduction)
-* [Prototyping](#Prototyping)
-* [Computing Measured Current](#Computing-Measured-Current)
-* [Components](#Components)
-* [Hardware](#Hardware)
-* [Software](#Software)
+* [Introduction](#introduction)
+* [Prototyping](#prototyping)
+* [Computing Measured Current](#computing-measured-current)
+* [Components](#components)
+* [Hardware](#hardware)
+* [Software](#software)
 
 ## Introduction
 
@@ -21,7 +21,7 @@ I wanted a device to measure power consumption in my house and have it report it
 
 I started out by hooking up a current sensors to an analog input pin; like this:
 
-![](https://openenergymonitor.org/forum-archive/sites/default/files/Arduino%20AC%20current%20input%20A.png)\
+![][openenergymonitor-diagram]\
 Source: [openenergymonitor.org][openenergymonitor]
 
 For calibration, I was using a multimeter that was capable of measuring up to 10A and hooked it up to a wire that was powering a three bulb lamp.  Each of the bulbs could be turned on and off individually.  With 60W bulbs in the sockets, I could get samples for 60W, 120W, and 180W.  
@@ -156,6 +156,7 @@ There's a few things to point out:
 [i-rms]: ./images/i-rms.svg
 [power]: ./images/power.svg
 [power-meter]: ./images/power-meter.svg
+[openenergymonitor-diagram]: https://openenergymonitor.org/forum-archive/sites/default/files/Arduino%20AC%20current%20input%20A.png
 
 <!--
 -- Links
