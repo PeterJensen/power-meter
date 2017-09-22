@@ -2,6 +2,17 @@
 
 **Author: Peter Jensen**
 
+## Table of Contents
+
+* [Introduction](#Introduction)
+* [Prototyping](#Prototyping)
+* [Computing Measured Current](#Computing-Measured-Current)
+* [Components](#Components)
+* [Hardware](#Hardware)
+* [Software](#Software)
+
+## Introduction
+
 This is my first attempt at a 'useful' IoT project.  I've had an Arduino Uno for a while, but didn't really use it for anything, except going through a blinking LED tutorial.  It was time to bring it to use.  I find it rewarding to think up a project idea and then seek out the information you need when you need it.  Of course, often times you find that others have done something similar, but that's OK, you'll still learn from the process.
 
 I wanted a device to measure power consumption in my house and have it report it up to a 'cloud' service when things changed; lights turning on/off, etc.  Also, I wanted a display on the box, so I could read what the current power consumption was.
@@ -11,32 +22,39 @@ I wanted a device to measure power consumption in my house and have it report it
 I started out by hooking up a current sensors to an analog input pin; like this:
 
 ![](https://openenergymonitor.org/forum-archive/sites/default/files/Arduino%20AC%20current%20input%20A.png)\
-Source: [https://openenergymonitor.org](https://openenergymonitor.org)
+Source: [openenergymonitor.org][openenergymonitor]
 
 For calibration, I was using a multimeter that was capable of measuring up to 10A and hooked it up to a wire that was powering a three bulb lamp.  Each of the bulbs could be turned on and off individually.  With 60W bulbs in the sockets, I could get samples for 60W, 120W, and 180W.  
 
 **Note, the current sensor must only go around one wire, in order for the AC current going through that wire to induce a current in the sensor.**
+
+## Computing Measured Current
+
+The measured current is the current that goes through the power line that the current sensor wraps around.
 
 If all you do in the `loop()` function in your Arduino sketch is to call `analogRead()` and store the result away in a memory buffer, you will be able to get about 100 samples during one cycle (60Hz - 16.7ms).  The Arduino is running at 16MHz.  That should be enough to compute the root-mean-square (rms) value of the input fairly accurately.
 
 Why do you need the rms value? The input on the analog input pin is the voltage drop over the load/burden resistor.  That voltage drop is directly proportional with the current going through the power line being measured at the time of measurement.
 
 When the current and voltage are varying over time, the power is computed as the average power over the period of the 60Hz sinus wave, using the RMS values of I and V:
+
 <!--
 <img src="https://latex.codecogs.com/svg.latex?P_{AVG}=I_{RMS}V_{RMS}" style="height:20px; margin-left:50px">
 -->
->![](./images/power.svg)
+>![][power]
 
 The V<sub>RMS</sub> component is kept constant by the power company at 120V, so the interesting one is the I<sub>RMS</sub> value.  The Arduino analog-to-digital converters are 10-bits, and the circuitry is designed so that the mid-point of the sinus input is 2.5V, which should result in a reading of ~511.  If the readings are equally spaced in time, the I<sub>RMS</sub> value can be computed as:
 
 <!--
 <img src="https://latex.codecogs.com/svg.latex?I_{RMS}=K\sqrt{\frac{1}{N}\sum_{i=1}^{N}{(v_i-511)^2}}" style="height:80px;margin-left:50px">
 -->
->![](./images/i-rms.svg)
+>![][i-rms]
 
-where N is the number of samples it takes to cover the full period of the 60Hz sinus wave, K is a calibration constant that will be determined after measuring the actual I<sub>RMS</sub> values with a multimeter, and v<sub>i</sub> are the values returned by the calls to `analogRead()`
+where N is the number of samples it take to cover the full period of the 60Hz sinus wave, K is a calibration constant that will be determined after measuring the actual I<sub>RMS</sub> values with a multimeter, and v<sub>i</sub> are the values returned by the calls to `analogRead()`
 
-\<TODO: Insert picture of test measurement setup>
+More info on the math can be found here: [wikipedia][wikipedia]
+
+<TODO: Insert picture of test measurement setup>
 
 ## Components
 
@@ -66,6 +84,17 @@ I bought everything I needed on Amazon Prime.  If you're not a Prime subscriber 
 
 ## Hardware
 
+Here's how I wired everything together:
+
+![][power-meter]
+
+There's a few things to point out:
+
+* The [power supply unit][2] can take an unregulated input voltage (6.5 - 12V), or USB input power. 
+* I opted not to use a an I2C 16x2 LCD display, because there were enough I/O pins available on the Arduino to drive it directly, and not having the I2C circuitry saves a little power.
+* The CT1 and CT2 'inductor' like symbols represent the [SCT-013][4] current sensors
+* The 2, 3, 4, and 5 input pins on the Arduino are attached in reverse order.  This just makes the diagram look a bit nicer.
+
 ## Software
 
 ### User Interface
@@ -84,6 +113,7 @@ I bought everything I needed on Amazon Prime.  If you're not a Prime subscriber 
 * Use an ESP32 module instead
 * More inputs (lower amps)
 * Better fault toleracy (after power outage)
+* Turn off the LED backlight after inactivity
 
 ## Add on devices
 
@@ -118,14 +148,24 @@ I bought everything I needed on Amazon Prime.  If you're not a Prime subscriber 
 | [![][img01] subtext1][img01] | [![][img02] subtext2][img02] |
 | [![][img01] subtext1][img01] | [![][img02] subtext2][img02] |
 
+<!--
+-- Images
+-->
 [img01]: ./images/IMG_6477.JPG
 [img02]: ./images/IMG_6477.JPG
+[i-rms]: ./images/i-rms.svg
+[power]: ./images/power.svg
+[power-meter]: ./images/power-meter.svg
+
+<!--
+-- Links
+-->
+[wikipedia]: https://en.wikipedia.org/wiki/Root_mean_square#Average_electrical_power
+[openenergymonitor]: https://openenergymonitor.org
 
 <!---
 Here's a comment
 -->
-
-[Some Link](http://www.danishdude.com)
 
 
 ```
