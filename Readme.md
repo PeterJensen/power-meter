@@ -90,7 +90,7 @@ Here's how I wired everything together:
 
 There's a few things to point out:
 
-* The [power supply unit][2] can take an unregulated input voltage (6.5 - 12V), or USB input power. 
+* The [power supply unit][2] can take an unregulated input voltage (6.5 - 12V), or USB input power.  The 5V supply is used for the Arduino and the 3.3V is used for the ESP8266.
 * I opted not to use a an I2C 16x2 LCD display, because there were enough I/O pins available on the Arduino to drive it directly, and not having the I2C circuitry saves a little power.
 * The CT1 and CT2 'inductor' like symbols represent the [SCT-013][4] current sensors
 * The 2, 3, 4, and 5 input pins on the Arduino are attached in reverse order.  This just makes the diagram look a bit nicer.
@@ -145,14 +145,32 @@ There's a few things to point out:
 
 |     |     |
 |:---:|:---:|
-| [![][img01] subtext1][img01] | [![][img02] subtext2][img02] |
-| [![][img01] subtext1][img01] | [![][img02] subtext2][img02] |
+| [![][img01] Top view][img01] | [![][img02] Power supply connectors][img02] |
+| [![][img03] CT connectors][img03] | [![][img04] Antenna part of the ESP8266][img04] |
+| [![][img05] Bottom view][img05] | [![][img06] Bottom view without Arduino][img06] |
+| [![][img07] Bottom view without Arduino and ESP8266][img07] | [![][img08] subtext2][img08] |
+| [![][img09] Button and LCD attached to the top][img09] | [![][img10]][img10] |
+| [![][img11] PCB underside][img11] | [![][img16] Box with lid][img16] |
 
 <!--
 -- Images
 -->
-[img01]: ./images/IMG_6477.JPG
-[img02]: ./images/IMG_6477.JPG
+[img01]: ./images/IMG_6468.JPG
+[img02]: ./images/IMG_6469.JPG
+[img03]: ./images/IMG_6470.JPG
+[img04]: ./images/IMG_6471.JPG
+[img05]: ./images/IMG_6472.JPG
+[img06]: ./images/IMG_6473.JPG
+[img07]: ./images/IMG_6474.JPG
+[img08]: ./images/IMG_6475.JPG
+[img09]: ./images/IMG_6476.JPG
+[img10]: ./images/IMG_6477.JPG
+[img11]: ./images/IMG_6478.JPG
+[img12]: ./images/IMG_6479.JPG
+[img13]: ./images/IMG_6480.JPG
+[img14]: ./images/IMG_6481.JPG
+[img15]: ./images/IMG_6482.JPG
+[img16]: ./images/IMG_6483.JPG
 [i-rms]: ./images/i-rms.svg
 [power]: ./images/power.svg
 [power-meter]: ./images/power-meter.svg
