@@ -88,6 +88,8 @@ Here's how I wired everything together:
 
 ![][power-meter]
 
+I used the [Digikey Scheme-it software][digikey] to create the hardware wiring diagram above.  It runs in a browser!
+
 There's a few things to point out:
 
 * The [power supply unit][2] can take an unregulated input voltage (6.5 - 12V), or USB input power.  The 5V supply is used for the Arduino and the 3.3V is used for the ESP8266.
@@ -98,12 +100,61 @@ There's a few things to point out:
 ## Software
 
 ### User Interface
+
+The information shown on the 2 line LCD cycles through this information, when the button is pressed:
+
+* Total Power
+* Line Power
+* Total Current
+* Line Current
+* Total Energy Usage
+* Local IP address
+* Advanced Options - \<\<Long Press\>\>
+
+If a long press is detected when 'Advanced Options' is shown these additional screens are included in the rotation:
+
+* WiFi Transmit - On/Off
+* Samples Transmit - On/Off
+* Reset Data
+
+In order to change the On/Off status or reset the data a long press on the button must be performed.
+
+
+|     |     |
+|:---:|:---:|
+| [![][img20] Total Power][img20] | [![][img21] Line Power][img21] |
+| [![][img22] Line Current][img22] | [![][img23] Total Energy Use since last reset][img23] |
+| [![][img24] Local IP Address][img24] | [![][img25] Long Press for Advanced Options][img25] |
+| [![][img26] WiFi transmission on/off][img26] | [![][img27] Transmit each sample value][img27] |
+| [![][img29] Transmission in progress][img29] | |
+
 ### Wifi Communication
 ### Server
 ### Client/Browser
 
+The browser display/interface currently looks like this:
+
+![][browser-ui]
+
+The black and red lines represent the power drawn from each of the two phases coming into the house.  The left and right arrow buttons on top will go to the previous day or the next day.  If you're at todays day, new data will be fetched.  No need to hit 'refresh'!
+
+Here's some of the things that can be derived from this:
+
+* The 'black' standby consumption is roughly 125W, and the 'red' one is 25W.  This is the parasitic draw by all the devices that are in standby mode (TV, microwave, computers, webcams, etc)
+
+* The up/down square pattern on the 'black' line is the compressor in the fridge turning on and off.
+
+* I woke up around 6am and started turning lights and the TV on.  The TV is drawing from the 'black' line.
+
+* The spike in the 'red' is my CO2 fan on my water heater.  The water heater runs for about 10 minutes
+
+* The smaller spike after the water heater spike is the garage door opening.
 
 ## 3D Printed Box
+
+I used openSCAD to design a box.  The .scad file and rendered .stl files are in this repo.  The box with the cutouts for the display, button, and various connectors looks like this:
+
+![][3d-box]
 
 ## Lessons Learned
 
@@ -148,7 +199,7 @@ There's a few things to point out:
 | [![][img01] Top view][img01] | [![][img02] Power supply connectors][img02] |
 | [![][img03] CT connectors][img03] | [![][img04] Antenna part of the ESP8266][img04] |
 | [![][img05] Bottom view][img05] | [![][img06] Bottom view without Arduino][img06] |
-| [![][img07] Bottom view without Arduino and ESP8266][img07] | [![][img08] subtext2][img08] |
+| [![][img07] Bottom view without Arduino and ESP8266][img07] | [![][img08]][img08] |
 | [![][img09] Button and LCD attached to the top][img09] | [![][img10]][img10] |
 | [![][img11] PCB underside][img11] | [![][img16] Box with lid][img16] |
 
@@ -171,16 +222,30 @@ There's a few things to point out:
 [img14]: ./images/IMG_6481.JPG
 [img15]: ./images/IMG_6482.JPG
 [img16]: ./images/IMG_6483.JPG
+[img20]: ./images/IMG_20170805_083951.jpg
+[img21]: ./images/IMG_20170805_084005.jpg
+[img22]: ./images/IMG_20170805_084014.jpg
+[img23]: ./images/IMG_20170805_084026.jpg
+[img24]: ./images/IMG_20170805_084036.jpg
+[img25]: ./images/IMG_20170805_084043.jpg
+[img26]: ./images/IMG_20170805_084055.jpg
+[img27]: ./images/IMG_20170805_084103.jpg
+[img28]: ./images/IMG_20170805_084111.jpg
+[img29]: ./images/IMG_20170805_084158.jpg
+[img30]: ./images/IMG_20170723_183119.jpg
 [i-rms]: ./images/i-rms.svg
 [power]: ./images/power.svg
 [power-meter]: ./images/power-meter.svg
 [openenergymonitor-diagram]: https://openenergymonitor.org/forum-archive/sites/default/files/Arduino%20AC%20current%20input%20A.png
+[3d-box]: ./images/box.png
+[browser-ui]: ./images/browser-ui.png
 
 <!--
 -- Links
 -->
 [wikipedia]: https://en.wikipedia.org/wiki/Root_mean_square#Average_electrical_power
 [openenergymonitor]: https://openenergymonitor.org
+[digikey]: https://www.digikey.com/schemeit
 
 <!---
 Here's a comment
